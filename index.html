@@ -36,12 +36,11 @@
 
         const scene = new THREE.Scene(); 
 
-        // Correctly calculate sizing targets from the container box boundary element
+        // FIX: Find the box element and read its specific 500px layout width/height
         const container = document.getElementById('diffy-model'); 
         const width = container.clientWidth; 
         const height = container.clientHeight; 
 
-        // Single declaration statement loop
         const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000); 
         const renderer = new THREE.WebGLRenderer({ antialias: true }); 
         
@@ -49,7 +48,7 @@
         renderer.setPixelRatio(window.devicePixelRatio); 
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         
-        // Append container mount accurately
+        // FIX: Append the canvas element directly inside the box instead of the body
         container.appendChild(renderer.domElement); 
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); 
@@ -112,7 +111,7 @@
             camera.aspect = width / height; 
             camera.updateProjectionMatrix(); 
             renderer.setSize(width, height); 
-        }); 
+        });
     </script> 
 </body>
 </html>
