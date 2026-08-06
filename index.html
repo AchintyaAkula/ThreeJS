@@ -95,11 +95,7 @@
 
         function animate() { 
             requestAnimationFrame(animate); 
-            if (controls.state === -1) { 
-                controls.autoRotate = true; 
-            } else { 
-                controls.autoRotate = false; 
-            } 
+            controls.autoRotate = (controls.state === -1);
             controls.update(); 
             renderer.render(scene, camera); 
         } 
