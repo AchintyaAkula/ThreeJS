@@ -63,6 +63,8 @@
         scene.add(dirLight2); 
 
         const controls = new OrbitControls(camera, renderer.domElement); 
+        window.controls = controls;
+        
         controls.enableZoom = false; 
         controls.enablePan = false; 
         controls.minPolarAngle = Math.PI / 2.3; 
