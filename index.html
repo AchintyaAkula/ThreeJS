@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Three.js Without Node</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { width: 100vw; height: 100vh; display: block; }
+        body { margin: 0; overflow: hidden; background-color: #1a1a1a; }
+        canvas { display: block; }
     </style>
 
     <!-- 1. The Import Map maps bare imports to CDN URLs -->
@@ -61,6 +61,7 @@
         // Add subtle damping for smooth deceleration when user stops dragging
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
+        camera.position.set(0, 0, 5);
 
         // 4. Load the Exported Onshape Model
         const loader = new GLTFLoader();
