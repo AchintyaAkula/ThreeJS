@@ -101,7 +101,7 @@
         animate(); 
 
         container.addEventListener('mousedown', () => { controls.autoRotate = false });
-        window.addEventListenener('mouseup', () => { controls.autoRotate = true });
+        window.addEventListener('mouseup', () => { controls.autoRotate = true });
         
         window.addEventListener('resize', () => { 
             const width = container.clientWidth; 
