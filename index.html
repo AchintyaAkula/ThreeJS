@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js Without Node</title>
+    <title>Stellar Swerve Diffy</title>
     <style>
         body { margin: 0; overflow: hidden; background-color: #1a1a1a; }
         canvas { display: block; }
     </style>
 
-    <!-- 1. The Import Map maps bare imports to CDN URLs -->
     <script type="importmap">
       {
         "imports": {
@@ -20,24 +19,19 @@
     </script>
 </head>
 <body>
-
-    <!-- 2. Your JavaScript application script -->
     <script type="module">
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-        // 1. Scene & Setup
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(window.devicePixelRatio);
-        // Better rendering color profiles for CAD models
         renderer.outputColorSpace = THREE.SRGBColorSpace; 
         document.body.appendChild(renderer.domElement);
 
-        // 2. Lighting (Crucial for CAD models to look realistic)
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
         scene.add(ambientLight);
 
@@ -49,37 +43,29 @@
         dirLight2.position.set(-5, 5, -7);
         scene.add(dirLight2);
 
-        // 3. Constrained Orbit Controls
         const controls = new OrbitControls(camera, renderer.domElement);
-        controls.enableZoom = false; // Disable scaling/zooming
-        controls.enablePan = false;  // Disable moving/panning up-down-left-right
-
-        // Lock vertical angle completely flat so it only rotates horizontally around X
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        
         controls.minPolarAngle = Math.PI / 2.3;
         controls.maxPolarAngle = Math.PI / 2.3;
         
-        // Add subtle damping for smooth deceleration when user stops dragging
         controls.enableDamping = true;
         controls.dampingFactor = 0.05;
         camera.position.set(0, 0, 5);
-
-        // 4. Load the Exported Onshape Model
+        
         const loader = new GLTFLoader();
         
-        // Update the file string name below if yours is different!
         loader.load('diffy_module.glb', function (gltf) {
             const model = gltf.scene;
             scene.add(model);
 
-            // Auto-center the camera views cleanly onto your custom model bounding box
             const box = new THREE.Box3().setFromObject(model);
             const center = box.getCenter(new THREE.Vector3());
             const size = box.getSize(new THREE.Vector3());
             
-            // Reorient controls target to the middle of your object
             controls.target.copy(center);
             
-            // Back the camera out dynamically based on your CAD part size
             const maxDim = Math.max(size.x, size.y, size.z);
             camera.position.set(center.x, center.y, maxDim * 2.5);
             
@@ -87,16 +73,14 @@
         }, undefined, function (error) {
             console.error('An error happened while loading your model:', error);
         });
-
-        // 5. Animation Loop
+        
         function animate() {
             requestAnimationFrame(animate);
-            controls.update(); // Necessary for damping changes
+            controls.update();
             renderer.render(scene, camera);
         }
         animate();
 
-        // 6. Responsive Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
