@@ -71,7 +71,7 @@
         controls.dampingFactor = 0.2; 
         controls.rotateSpeed = 1.1; 
         controls.autoRotate = true; 
-        controls.autoRotateSpeed = 2.0; 
+        controls.autoRotateSpeed = 3.0; 
 
         camera.position.set(0, 0, 5); 
 
@@ -101,7 +101,7 @@
         animate(); 
 
         container.addEventListener('mousedown', () => { controls.autoRotate = false });
-        container.addEventListenener('mouseup', () => { controls.autoRotate = true });
+        window.addEventListenener('mouseup', () => { controls.autoRotate = true });
         
         window.addEventListener('resize', () => { 
             const width = container.clientWidth; 
